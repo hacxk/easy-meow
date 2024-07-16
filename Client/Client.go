@@ -13,6 +13,7 @@ import (
 	"github.com/mdp/qrterminal/v3"
 	"go.mau.fi/whatsmeow"
 	"go.mau.fi/whatsmeow/store/sqlstore"
+	"go.mau.fi/whatsmeow/types/events"
 	waLog "go.mau.fi/whatsmeow/util/log"
 )
 
@@ -20,16 +21,104 @@ type ExtendedClient struct {
 	*whatsmeow.Client
 }
 
-func (ec *ExtendedClient) Send(to string, message string) error {
-	return messages.SendTextMessage(ec.Client, to, message)
+func (ec *ExtendedClient) Send(evt *events.Message, message string) error {
+	return messages.SendTextMessage(ec.Client, evt, message)
 }
 
-func (ec *ExtendedClient) Reply(to string, quotedMessageID string, message string) error {
-	return messages.ReplyToMessage(ec.Client, to, quotedMessageID, message)
+func (ec *ExtendedClient) React(evt *events.Message, emoji string) error {
+	return messages.ReactionMessage(ec.Client, evt, emoji)
 }
 
-func (ec *ExtendedClient) SendImage(to string, path string, caption string) error {
-	return messages.SendImageMessage(ec.Client, to, path, caption)
+func (ec *ExtendedClient) Reply(evt *events.Message, message string) error {
+	return messages.ReplyToMessage(ec.Client, evt, message)
+}
+
+func (ec *ExtendedClient) SendImage(evt *events.Message, path string, caption ...string) error {
+	var finalCaption string
+	if len(caption) > 0 {
+		finalCaption = caption[0]
+	}
+	return messages.SendImageMessage(ec.Client, evt, path, finalCaption)
+}
+
+func (ec *ExtendedClient) SendImageReply(evt *events.Message, path string, caption ...string) error {
+	var finalCaption string
+	if len(caption) > 0 {
+		finalCaption = caption[0]
+	}
+	return messages.SendImageMessageReply(ec.Client, evt, path, finalCaption)
+}
+
+func (ec *ExtendedClient) SendVideo(evt *events.Message, path string, caption ...string) error {
+	var finalCaption string
+	if len(caption) > 0 {
+		finalCaption = caption[0]
+	}
+	return messages.SendVideoMessage(ec.Client, evt, path, finalCaption)
+}
+
+func (ec *ExtendedClient) SendVideoReply(evt *events.Message, path string, caption ...string) error {
+	var finalCaption string
+	if len(caption) > 0 {
+		finalCaption = caption[0]
+	}
+	return messages.SendVideoMessageReply(ec.Client, evt, path, finalCaption)
+}
+
+func (ec *ExtendedClient) SendAudio(evt *events.Message, path string, ptt bool) error {
+	return messages.SendAudioMessage(ec.Client, evt, path, ptt)
+}
+
+func (ec *ExtendedClient) SendAudioReply(evt *events.Message, path string, ptt bool) error {
+	return messages.SendAudioMessageReply(ec.Client, evt, path, ptt)
+}
+
+func (ec *ExtendedClient) SendDocument(evt *events.Message, path string, filename string, caption ...string) error {
+	var finalCaption string
+	if len(caption) > 0 {
+		finalCaption = caption[0]
+	}
+	return messages.SendDocumentMessage(ec.Client, evt, path, filename, finalCaption)
+}
+
+func (ec *ExtendedClient) SendDocumentReply(evt *events.Message, path string, filename string, caption ...string) error {
+	var finalCaption string
+	if len(caption) > 0 {
+		finalCaption = caption[0]
+	}
+	return messages.SendDocumentMessageReply(ec.Client, evt, path, filename, finalCaption)
+}
+
+func (ec *ExtendedClient) SendSticker(evt *events.Message, path string) error {
+	return messages.SendStickerMessage(ec.Client, evt, path)
+}
+
+func (ec *ExtendedClient) SendStickerReply(evt *events.Message, path string) error {
+	return messages.SendStickerMessageReply(ec.Client, evt, path)
+}
+
+func (ec *ExtendedClient) SendGif(evt *events.Message, path string, caption ...string) error {
+	var finalCaption string
+	if len(caption) > 0 {
+		finalCaption = caption[0]
+	}
+	return messages.SendGifMessage(ec.Client, evt, path, finalCaption)
+}
+
+func (ec *ExtendedClient) SendGifReply(evt *events.Message, path string, caption ...string) error {
+	var finalCaption string
+	if len(caption) > 0 {
+		finalCaption = caption[0]
+	}
+	return messages.SendGifMessageReply(ec.Client, evt, path, finalCaption)
+}
+
+func (ec *ExtendedClient) SendMention(evt *events.Message, message string, mentions []string) error {
+	return messages.SendMentionMessage(ec.Client, evt, message, mentions)
+}
+
+func (ec *ExtendedClient) SendPhone(evt *events.Message, phonenumber string, message string) error {
+	return messages.SendPhoneNumberMessage(ec.Client, evt, phonenumber, message)
 }
 
 type WhatsAppClient struct {

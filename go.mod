@@ -1,4 +1,4 @@
-module easy-meow
+module github.com/hacxk/easy-meow
 
 go 1.22.5
 

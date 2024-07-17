@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	utils "easy-meow/Utils"
+	utils "github.com/hacxk/easy-meow/Utils"
 
 	"go.mau.fi/whatsmeow"
 	waProto "go.mau.fi/whatsmeow/binary/proto"

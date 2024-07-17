@@ -7,7 +7,7 @@ import (
 	"os/signal"
 	"syscall"
 
-	messages "easy-meow/Message"
+	messages "github.com/hacxk/easy-meow/Message"
 
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/mdp/qrterminal/v3"

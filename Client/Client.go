@@ -21,19 +21,23 @@ type ExtendedClient struct {
 	*whatsmeow.Client
 }
 
-func (ec *ExtendedClient) Send(evt *events.Message, message string) error {
+func (ec *ExtendedClient) Send(evt *events.Message, message string) (*whatsmeow.SendResponse, error) {
 	return messages.SendTextMessage(ec.Client, evt, message)
 }
 
-func (ec *ExtendedClient) React(evt *events.Message, emoji string) error {
+func (ec *ExtendedClient) React(evt *events.Message, emoji string) (*whatsmeow.SendResponse, error) {
 	return messages.ReactionMessage(ec.Client, evt, emoji)
 }
 
-func (ec *ExtendedClient) Reply(evt *events.Message, message string) error {
+func (ec *ExtendedClient) Edit(evt *events.Message, sendMessageID string, newMessage string) (*whatsmeow.SendResponse, error) {
+	return messages.EditMessage(ec.Client, evt, sendMessageID, newMessage)
+}
+
+func (ec *ExtendedClient) Reply(evt *events.Message, message string) (*whatsmeow.SendResponse, error) {
 	return messages.ReplyToMessage(ec.Client, evt, message)
 }
 
-func (ec *ExtendedClient) SendImage(evt *events.Message, path string, caption ...string) error {
+func (ec *ExtendedClient) SendImage(evt *events.Message, path string, caption ...string) (*whatsmeow.SendResponse, error) {
 	var finalCaption string
 	if len(caption) > 0 {
 		finalCaption = caption[0]
@@ -41,7 +45,7 @@ func (ec *ExtendedClient) SendImage(evt *events.Message, path string, caption ..
 	return messages.SendImageMessage(ec.Client, evt, path, finalCaption)
 }
 
-func (ec *ExtendedClient) SendImageReply(evt *events.Message, path string, caption ...string) error {
+func (ec *ExtendedClient) SendImageReply(evt *events.Message, path string, caption ...string) (*whatsmeow.SendResponse, error) {
 	var finalCaption string
 	if len(caption) > 0 {
 		finalCaption = caption[0]
@@ -49,7 +53,7 @@ func (ec *ExtendedClient) SendImageReply(evt *events.Message, path string, capti
 	return messages.SendImageMessageReply(ec.Client, evt, path, finalCaption)
 }
 
-func (ec *ExtendedClient) SendVideo(evt *events.Message, path string, caption ...string) error {
+func (ec *ExtendedClient) SendVideo(evt *events.Message, path string, caption ...string) (*whatsmeow.SendResponse, error) {
 	var finalCaption string
 	if len(caption) > 0 {
 		finalCaption = caption[0]
@@ -57,7 +61,7 @@ func (ec *ExtendedClient) SendVideo(evt *events.Message, path string, caption ..
 	return messages.SendVideoMessage(ec.Client, evt, path, finalCaption)
 }
 
-func (ec *ExtendedClient) SendVideoReply(evt *events.Message, path string, caption ...string) error {
+func (ec *ExtendedClient) SendVideoReply(evt *events.Message, path string, caption ...string) (*whatsmeow.SendResponse, error) {
 	var finalCaption string
 	if len(caption) > 0 {
 		finalCaption = caption[0]
@@ -65,15 +69,15 @@ func (ec *ExtendedClient) SendVideoReply(evt *events.Message, path string, capti
 	return messages.SendVideoMessageReply(ec.Client, evt, path, finalCaption)
 }
 
-func (ec *ExtendedClient) SendAudio(evt *events.Message, path string, ptt bool) error {
+func (ec *ExtendedClient) SendAudio(evt *events.Message, path string, ptt bool) (*whatsmeow.SendResponse, error) {
 	return messages.SendAudioMessage(ec.Client, evt, path, ptt)
 }
 
-func (ec *ExtendedClient) SendAudioReply(evt *events.Message, path string, ptt bool) error {
+func (ec *ExtendedClient) SendAudioReply(evt *events.Message, path string, ptt bool) (*whatsmeow.SendResponse, error) {
 	return messages.SendAudioMessageReply(ec.Client, evt, path, ptt)
 }
 
-func (ec *ExtendedClient) SendDocument(evt *events.Message, path string, filename string, caption ...string) error {
+func (ec *ExtendedClient) SendDocument(evt *events.Message, path string, filename string, caption ...string) (*whatsmeow.SendResponse, error) {
 	var finalCaption string
 	if len(caption) > 0 {
 		finalCaption = caption[0]
@@ -81,7 +85,7 @@ func (ec *ExtendedClient) SendDocument(evt *events.Message, path string, filenam
 	return messages.SendDocumentMessage(ec.Client, evt, path, filename, finalCaption)
 }
 
-func (ec *ExtendedClient) SendDocumentReply(evt *events.Message, path string, filename string, caption ...string) error {
+func (ec *ExtendedClient) SendDocumentReply(evt *events.Message, path string, filename string, caption ...string) (*whatsmeow.SendResponse, error) {
 	var finalCaption string
 	if len(caption) > 0 {
 		finalCaption = caption[0]
@@ -89,15 +93,15 @@ func (ec *ExtendedClient) SendDocumentReply(evt *events.Message, path string, fi
 	return messages.SendDocumentMessageReply(ec.Client, evt, path, filename, finalCaption)
 }
 
-func (ec *ExtendedClient) SendSticker(evt *events.Message, path string) error {
+func (ec *ExtendedClient) SendSticker(evt *events.Message, path string) (*whatsmeow.SendResponse, error) {
 	return messages.SendStickerMessage(ec.Client, evt, path)
 }
 
-func (ec *ExtendedClient) SendStickerReply(evt *events.Message, path string) error {
+func (ec *ExtendedClient) SendStickerReply(evt *events.Message, path string) (*whatsmeow.SendResponse, error) {
 	return messages.SendStickerMessageReply(ec.Client, evt, path)
 }
 
-func (ec *ExtendedClient) SendGif(evt *events.Message, path string, caption ...string) error {
+func (ec *ExtendedClient) SendGif(evt *events.Message, path string, caption ...string) (*whatsmeow.SendResponse, error) {
 	var finalCaption string
 	if len(caption) > 0 {
 		finalCaption = caption[0]
@@ -105,7 +109,7 @@ func (ec *ExtendedClient) SendGif(evt *events.Message, path string, caption ...s
 	return messages.SendGifMessage(ec.Client, evt, path, finalCaption)
 }
 
-func (ec *ExtendedClient) SendGifReply(evt *events.Message, path string, caption ...string) error {
+func (ec *ExtendedClient) SendGifReply(evt *events.Message, path string, caption ...string) (*whatsmeow.SendResponse, error) {
 	var finalCaption string
 	if len(caption) > 0 {
 		finalCaption = caption[0]
@@ -113,12 +117,20 @@ func (ec *ExtendedClient) SendGifReply(evt *events.Message, path string, caption
 	return messages.SendGifMessageReply(ec.Client, evt, path, finalCaption)
 }
 
-func (ec *ExtendedClient) SendMention(evt *events.Message, message string, mentions []string) error {
+func (ec *ExtendedClient) SendMention(evt *events.Message, message string, mentions []string) (*whatsmeow.SendResponse, error) {
 	return messages.SendMentionMessage(ec.Client, evt, message, mentions)
 }
 
-func (ec *ExtendedClient) SendPhone(evt *events.Message, phonenumber string, message string) error {
+func (ec *ExtendedClient) SendPhone(evt *events.Message, phonenumber string, message string) (*whatsmeow.SendResponse, error) {
 	return messages.SendPhoneNumberMessage(ec.Client, evt, phonenumber, message)
+}
+
+func (ec *ExtendedClient) CreatePoll(evt *events.Message, question string, option []string, onlyonce bool) (*whatsmeow.SendResponse, error) {
+	return messages.SendPolls(ec.Client, evt, question, option, onlyonce)
+}
+
+func (ec *ExtendedClient) Delete(evt *events.Message, messageID string) (*whatsmeow.SendResponse, error) {
+	return messages.DeleteMessage(ec.Client, evt, messageID)
 }
 
 type WhatsAppClient struct {
